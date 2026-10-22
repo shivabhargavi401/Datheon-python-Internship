@@ -1,0 +1,50 @@
+import random
+
+words = ["python", "computer", "student", "developer", "coding"]
+word = random.choice(words)
+guessed = set()
+wrong = 0
+
+stages = [
+    "  ____\n |    |\n |    O\n |   /|\\\n |   / \\\n_|_",
+    "  ____\n |    |\n |    O\n |   /|\\\n |   /\n_|_",
+    "  ____\n |    |\n |    O\n |   /|\n |\n_|_",
+    "  ____\n |    |\n |    O\n |    |\n |\n_|_",
+    "  ____\n |    |\n |    O\n |\n |\n_|_",
+    "  ____\n |    |\n |\n |\n |\n_|_",
+    "  ____\n |    |\n |\n |\n |\n_|_"
+]
+
+print("WELCOME TO HANGMAN!")
+
+while wrong < 6:
+    print(stages[wrong])
+    print("Word:", " ".join(c if c in guessed else "_" for c in word))
+    print("Guessed letters:", sorted(guessed))
+
+    letter = input("Guess a letter: ").lower().strip()
+
+    if len(letter) != 1 or not letter.isalpha():
+        print("Enter one letter only!")
+        continue
+
+    if letter in guessed:
+        print("You already guessed that letter!")
+        continue
+
+    guessed.add(letter)
+
+    if letter in word:
+        print("Correct guess!")
+    else:
+        wrong += 1
+        print("Wrong guess! Attempts left:", 6 - wrong)
+
+    if all(c in guessed for c in word):
+        print("Congratulations! You won!")
+        print("The word was:", word)
+        break
+else:
+    print(stages[6])
+    print("Game over! You lost.")
+    print("The word was:", word)
